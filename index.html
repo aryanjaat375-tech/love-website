@@ -18,6 +18,21 @@ body {
     color: white;
 }
 
+/* Entry screen */
+#entry {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:black;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    flex-direction:column;
+}
+
+/* Container */
 .container {
     text-align: center;
     background: rgba(255,255,255,0.12);
@@ -25,6 +40,7 @@ body {
     border-radius: 25px;
     backdrop-filter: blur(15px);
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    animation: zoomIn 1.5s ease;
 }
 
 .reveal {
@@ -63,10 +79,17 @@ button {
     color: #ff2e63;
 }
 
+/* Animations */
 @keyframes fadeIn {
     to { opacity: 1; }
 }
 
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Hearts */
 .heart {
     position: absolute;
     bottom: -20px;
@@ -84,6 +107,12 @@ button {
 
 <body>
 
+<!-- ENTRY SCREEN -->
+<div id="entry">
+    <h2>Tap to open 💌</h2>
+</div>
+
+<!-- MAIN -->
 <div class="container" id="main">
     <h1>Hey… ❤️</h1>
     <div class="typing" id="text"></div>
@@ -93,16 +122,23 @@ button {
     <button class="yes2" onclick="startMagic()">Obviously Yes 😄</button>
 </div>
 
+<!-- REVEAL -->
 <div class="container reveal" id="reveal">
     <h1 id="afterText"></h1>
     <div class="signature">— Aryan Chaudhary 💖</div>
 </div>
 
+<!-- 🎹 RAABTA STYLE PIANO -->
 <audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2022/11/03/audio_7b1f3bb8c7.mp3?filename=soft-piano-ambient-121349.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+
+// Tap to open
+document.getElementById("entry").onclick = function() {
+    this.style.display = "none";
+};
 
 // First typing
 const msg = "I don’t know when it started… but you became someone special. Talking to you feels easy… and maybe this could be something beautiful 💫";
@@ -122,29 +158,50 @@ function startMagic() {
     document.getElementById("main").style.display = "none";
     document.getElementById("reveal").style.display = "block";
 
-    document.getElementById("music").play();
+    // 🎹 Smooth piano fade-in
+    let music = document.getElementById("music");
+    music.volume = 0;
+    music.play();
 
-    let text = "I was really hoping you'd say that… ❤️";
-    let j = 0;
-
-    function type2() {
-        if (j < text.length) {
-            document.getElementById("afterText").innerHTML += text.charAt(j);
-            j++;
-            setTimeout(type2, 40);
+    let vol = 0;
+    let fade = setInterval(() => {
+        if (vol < 0.35) {
+            vol += 0.015;
+            music.volume = vol;
+        } else {
+            clearInterval(fade);
         }
-    }
-    type2();
+    }, 250);
 
-    // WhatsApp alert
+    // 💬 Emotional message
+    setTimeout(() => {
+        let text = "I don’t know where this will go… but I know I want to explore it with you ❤️";
+        let j = 0;
+
+        function type2() {
+            if (j < text.length) {
+                document.getElementById("afterText").innerHTML += text.charAt(j);
+                j++;
+                setTimeout(type2, 45);
+            }
+        }
+        type2();
+    }, 800);
+
+    // 💫 Final line
+    setTimeout(() => {
+        document.getElementById("afterText").innerHTML += "<br><br>See you soon… 💫";
+    }, 3500);
+
+    // WhatsApp ping
     setTimeout(() => {
         window.open("https://wa.me/918445625075?text=She said YES ❤️", "_blank");
-    }, 2000);
+    }, 2500);
 
-    // Redirect to Google Form
+    // Redirect
     setTimeout(() => {
         window.location.href = "PASTE_YOUR_GOOGLE_FORM_LINK_HERE";
-    }, 5000);
+    }, 6000);
 }
 
 // Hearts
