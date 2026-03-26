@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Just Something For You ❤️</title>
 
 <style>
@@ -10,7 +11,7 @@ body {
     padding: 0;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg, #ff758c, #ff7eb3);
-    height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -18,13 +19,11 @@ body {
     color: white;
 }
 
-/* Entry screen */
+/* Entry */
 #entry {
     position: fixed;
-    top:0; left:0;
     width:100%; height:100%;
     background:black;
-    color:white;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -36,70 +35,57 @@ body {
 .container {
     text-align: center;
     background: rgba(255,255,255,0.12);
-    padding: 50px;
-    border-radius: 25px;
-    backdrop-filter: blur(15px);
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
-    animation: zoomIn 1.5s ease;
+    padding: 30px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    animation: zoomIn 1.2s ease;
 }
 
-.reveal {
-    display: none;
-}
+.reveal { display:none; }
 
 .signature {
-    font-size: 2rem;
-    font-family: cursive;
+    font-size: 1.8rem;
     margin-top: 20px;
+    font-family: cursive;
     opacity: 0;
     animation: fadeIn 2s forwards;
 }
 
 .typing {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 20px 0;
-    min-height: 60px;
+    min-height: 70px;
+    line-height: 1.5;
 }
 
 button {
-    padding: 15px 30px;
-    margin: 10px;
+    padding: 12px 20px;
+    margin: 8px;
     border: none;
-    border-radius: 30px;
-    cursor: pointer;
+    border-radius: 25px;
+    font-size: 14px;
 }
 
-.yes {
-    background: #ff2e63;
-    color: white;
-}
+.yes { background:#ff2e63; color:white; }
+.yes2 { background:white; color:#ff2e63; }
 
-.yes2 {
-    background: white;
-    color: #ff2e63;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    to { opacity: 1; }
-}
-
+@keyframes fadeIn { to { opacity:1; } }
 @keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    from { transform: scale(0.8); opacity:0; }
+    to { transform: scale(1); opacity:1; }
 }
 
 /* Hearts */
 .heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 18px;
+    position:absolute;
+    bottom:-20px;
     animation: floatUp 6s linear infinite;
 }
-
 @keyframes floatUp {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-900px); opacity: 0; }
+    to { transform: translateY(-900px); opacity:0; }
 }
 </style>
 
@@ -107,12 +93,10 @@ button {
 
 <body>
 
-<!-- ENTRY SCREEN -->
 <div id="entry">
     <h2>Tap to open 💌</h2>
 </div>
 
-<!-- MAIN -->
 <div class="container" id="main">
     <h1>Hey… ❤️</h1>
     <div class="typing" id="text"></div>
@@ -122,98 +106,97 @@ button {
     <button class="yes2" onclick="startMagic()">Obviously Yes 😄</button>
 </div>
 
-<!-- REVEAL -->
 <div class="container reveal" id="reveal">
     <h1 id="afterText"></h1>
     <div class="signature">— Aryan Chaudhary 💖</div>
 </div>
 
-<!-- 🎹 RAABTA STYLE PIANO -->
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/11/03/audio_7b1f3bb8c7.mp3?filename=soft-piano-ambient-121349.mp3" type="audio/mpeg">
+<!-- Better Emotional Piano -->
+<audio id="music" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_5c5b5c2c3e.mp3?filename=sad-romantic-piano-140997.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-// Tap to open
-document.getElementById("entry").onclick = function() {
-    this.style.display = "none";
+// Entry
+document.getElementById("entry").onclick = function(){
+    this.style.display="none";
 };
 
 // First typing
-const msg = "I don’t know when it started… but you became someone special. Talking to you feels easy… and maybe this could be something beautiful 💫";
-let i = 0;
+const msg = "I don’t know when it started… but somehow, you became someone I genuinely look forward to. Talking to you feels easy… being around you feels right 💫";
+let i=0;
 
-function typeEffect() {
-    if (i < msg.length) {
-        document.getElementById("text").innerHTML += msg.charAt(i);
+function typeEffect(){
+    if(i<msg.length){
+        text.innerHTML+=msg.charAt(i);
         i++;
-        setTimeout(typeEffect, 35);
+        setTimeout(typeEffect,40);
     }
 }
 typeEffect();
 
-// Main action
-function startMagic() {
-    document.getElementById("main").style.display = "none";
-    document.getElementById("reveal").style.display = "block";
+// Main flow
+function startMagic(){
 
-    // 🎹 Smooth piano fade-in
-    let music = document.getElementById("music");
-    music.volume = 0;
+    document.getElementById("main").style.display="none";
+    document.getElementById("reveal").style.display="block";
+
+    let music=document.getElementById("music");
+    music.volume=0;
     music.play();
 
-    let vol = 0;
-    let fade = setInterval(() => {
-        if (vol < 0.35) {
-            vol += 0.015;
-            music.volume = vol;
-        } else {
-            clearInterval(fade);
-        }
-    }, 250);
+    // smooth fade in
+    let vol=0;
+    let fade=setInterval(()=>{
+        if(vol<0.35){
+            vol+=0.01;
+            music.volume=vol;
+        } else clearInterval(fade);
+    },300);
 
-    // 💬 Emotional message
-    setTimeout(() => {
-        let text = "I don’t know where this will go… but I know I want to explore it with you ❤️";
-        let j = 0;
+    // Delay for emotional pause
+    setTimeout(()=>{
 
-        function type2() {
-            if (j < text.length) {
-                document.getElementById("afterText").innerHTML += text.charAt(j);
+        let text="I don’t know where this will go… but I know I want to explore it with you ❤️";
+        let j=0;
+
+        function type2(){
+            if(j<text.length){
+                afterText.innerHTML+=text.charAt(j);
                 j++;
-                setTimeout(type2, 45);
+                setTimeout(type2,60);
             }
         }
         type2();
-    }, 800);
 
-    // 💫 Final line
-    setTimeout(() => {
-        document.getElementById("afterText").innerHTML += "<br><br>See you soon… 💫";
-    }, 3500);
+    },1500);
 
-    // WhatsApp ping
-    setTimeout(() => {
-        window.open("https://wa.me/918445625075?text=She said YES ❤️", "_blank");
-    }, 2500);
+    // final line (slow)
+    setTimeout(()=>{
+        afterText.innerHTML+="<br><br>Take your time… I’ll be right here 💫";
+    },5000);
 
-    // Redirect
-    setTimeout(() => {
-        window.location.href = "PASTE_YOUR_GOOGLE_FORM_LINK_HERE";
-    }, 6000);
+    // WhatsApp
+    setTimeout(()=>{
+        window.open("https://wa.me/918445625075?text=She said YES ❤️","_blank");
+    },7000);
+
+    // Redirect (SLOW NOW)
+    setTimeout(()=>{
+        window.location.href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE";
+    },10000);
 }
 
 // Hearts
-setInterval(() => {
-    let heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * window.innerWidth + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 6000);
-}, 250);
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},400);
 
 </script>
 
